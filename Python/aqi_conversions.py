@@ -46,9 +46,12 @@ def concentration_to_us_aqi(conc):
     return round(interpolate(conc, US_AQI_CONCENTRATIONS, True))
 
 def china_aqi_to_us_aqi(china_aqi):
-    conc = china_aqi_to_concentration(china_aqi, reverse=True)
+    conc = china_aqi_to_concentration(china_aqi)
     return concentration_to_us_aqi(conc)
 
+def us_aqi_to_china_aqi(us_aqi):
+    conc = us_aqi_to_concentration(us_aqi)
+    return concentration_to_china_aqi(conc)
 
 # Tests
 import unittest
@@ -66,6 +69,9 @@ class TestChinaAQIs(unittest.TestCase):
         self.assertEqual(concentration_to_china_aqi(500), 500)
         self.assertEqual(concentration_to_china_aqi(600), 600)
         self.assertEqual(concentration_to_china_aqi(200), 250)
+        
+    def test_us_aqi_to_china_aqi(self):
+        self.assertEqual(us_aqi_to_china_aqi(99), 50)
 
 class TestUSAQIs(unittest.TestCase):
 
@@ -80,6 +86,9 @@ class TestUSAQIs(unittest.TestCase):
         self.assertEqual(concentration_to_us_aqi(500), 500)
         self.assertEqual(concentration_to_us_aqi(600), 600)
         self.assertEqual(concentration_to_us_aqi(301.4), 351)
+    
+    def test_china_to_us_aqi(self):
+        self.assertEqual(china_aqi_to_us_aqi(50), 99)
 
 if __name__ == '__main__':
     unittest.main()
