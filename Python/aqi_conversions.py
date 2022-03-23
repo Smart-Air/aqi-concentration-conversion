@@ -1,3 +1,5 @@
+# source: https://www.airnow.gov/sites/default/files/custom-js/aqi-conc.js
+
 CHINA_AQI_CONCENTRATIONS = [
     # AQI, #Concentration
     (0, 0),
@@ -18,6 +20,18 @@ US_AQI_CONCENTRATIONS = [
     (200, 150.4),
     (400, 350.4),
     (500, 500)
+]
+
+US_PM10_AQI_CONCENTRATIONS = [
+    # AQI, #PM10 concentrations
+    (0, 0),
+    (50, 54),
+    (100, 154),
+    (150, 254),
+    (200, 354),
+    (300, 424),
+    (400, 504),
+    (500, 604)
 ]
 
 def interpolate(val, vals, reverse=False):
@@ -52,6 +66,9 @@ def china_aqi_to_us_aqi(china_aqi):
 def us_aqi_to_china_aqi(us_aqi):
     conc = us_aqi_to_concentration(us_aqi)
     return concentration_to_china_aqi(conc)
+
+def us_aqi_to_pm10_concentration(us_aqi):
+    return interpolate(us_aqi, US_PM10_AQI_CONCENTRATIONS)
 
 # Tests
 import unittest
