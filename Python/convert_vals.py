@@ -58,4 +58,4 @@ if __name__ == "__main__":
         if not args.values:
             raise IllegalArgumentError("You must provide at least one value to convert")
         for val in [args.values]:
-            print convert(val, standard, args.from_conc)
+            print(convert(val, standard, args.from_conc))
