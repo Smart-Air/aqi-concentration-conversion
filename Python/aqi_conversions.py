@@ -34,7 +34,7 @@ US_PM10_AQI_CONCENTRATIONS = [
     (500, 604)
 ]
 
-def interpolate(val, vals, reverse=False):
+def _interpolate(val, vals, reverse=False):
     if reverse:
         vals = [t[::-1] for t in vals]
 
@@ -48,16 +48,16 @@ def interpolate(val, vals, reverse=False):
     return val
 
 def china_aqi_to_concentration(china_aqi):
-    return interpolate(china_aqi, CHINA_AQI_CONCENTRATIONS)
+    return _interpolate(china_aqi, CHINA_AQI_CONCENTRATIONS)
 
 def concentration_to_china_aqi(conc):
-    return round(interpolate(conc, CHINA_AQI_CONCENTRATIONS, True))
+    return round(_interpolate(conc, CHINA_AQI_CONCENTRATIONS, True))
 
 def us_aqi_to_concentration(us_aqi):
-    return interpolate(us_aqi, US_AQI_CONCENTRATIONS)
+    return _interpolate(us_aqi, US_AQI_CONCENTRATIONS)
 
 def concentration_to_us_aqi(conc):
-    return round(interpolate(conc, US_AQI_CONCENTRATIONS, True))
+    return round(_interpolate(conc, US_AQI_CONCENTRATIONS, True))
 
 def china_aqi_to_us_aqi(china_aqi):
     conc = china_aqi_to_concentration(china_aqi)
@@ -68,7 +68,7 @@ def us_aqi_to_china_aqi(us_aqi):
     return concentration_to_china_aqi(conc)
 
 def us_aqi_to_pm10_concentration(us_aqi):
-    return interpolate(us_aqi, US_PM10_AQI_CONCENTRATIONS)
+    return _interpolate(us_aqi, US_PM10_AQI_CONCENTRATIONS)
 
 # Tests
 import unittest
