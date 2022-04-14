@@ -1,4 +1,4 @@
-from aqi_conversions import *
+from conversions import *
 
 # Tests
 import unittest
