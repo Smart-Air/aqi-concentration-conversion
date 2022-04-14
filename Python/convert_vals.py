@@ -1,5 +1,5 @@
 import argparse
-from aqi_conversions import *
+from conversions import *
 import sys
 
 parser = argparse.ArgumentParser(description='Process some integers.')
