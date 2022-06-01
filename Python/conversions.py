@@ -1,40 +1,96 @@
 # source: https://www.airnow.gov/sites/default/files/custom-js/aqi-conc.js
 
-CHINA_AQI_CONCENTRATIONS = [
-    # AQI, #Concentration
-    (0, 0),
-    (50, 35),
-    (100, 75),
-    (150, 115),
-    (200, 150),
-    (300, 250),
-    (400, 350),
-    (500, 500)
-]
-US_AQI_CONCENTRATIONS = [
-    # AQI, #Concentration
-    (0, 0),
-    (50, 12),
-    (100, 35.4),
-    (150, 55.4),
-    (200, 150.4),
-    (400, 350.4),
-    (500, 500)
-]
+US = 'US'
+CHINA = 'CHINA'
+PM25 = 'pm25'
+PM10 = 'pm10'
+O3 = 'o3'
+CO = 'co'
+NO2 = 'no2'
+SO2 = 'so2'
 
-US_PM10_AQI_CONCENTRATIONS = [
-    # AQI, #PM10 concentrations
-    (0, 0),
-    (50, 54),
-    (100, 154),
-    (150, 254),
-    (200, 354),
-    (300, 424),
-    (400, 504),
-    (500, 604)
-]
+CONVERSIONS = {
+    PM25: {
+        CHINA: [# AQI, #Concentration
+                    (0, 0),
+                    (50, 35),
+                    (100, 75),
+                    (150, 115),
+                    (200, 150),
+                    (300, 250),
+                    (400, 350),
+                    (500, 500)
+                ],
+        US: [# AQI, #Concentration
+                (0, 0),
+                (50, 12),
+                (100, 35.4),
+                (150, 55.4),
+                (200, 150.4),
+                (400, 350.4),
+                (500, 500)
+            ]
+    },
+    PM10 : {
+        US:[# AQI, #PM10 concentrations
+                (0, 0),
+                (50, 54),
+                (100, 154),
+                (150, 254),
+                (200, 354),
+                (300, 424),
+                (400, 504),
+                (500, 604)
+            ]
+    },
+    O3: {
+        US: [
+            (0, 0),
+            (50, 54),
+            (100, 70),
+            (150, 85),
+            (200, 105),
+            (300, 200),
+        ]
+    },
+    CO: {
+        US: [
+            (0, 0),
+            (50, 4.4),
+            (100, 9.4),
+            (150, 12.4),
+            (200, 15.4),
+            (300, 30.4),
+            (400, 40.4),
+            (500, 50.4)
+        ]
+    },
+    NO2: {
+        US: [
+            (0, 0),
+            (50, 53),
+            (100, 100),
+            (150, 360),
+            (200, 649),
+            (300, 1244),
+            (400, 1644),
+            (500, 2044)
+        ]
+    },
+    SO2: {
+        US: [
+            (0, 0),
+            (50, 35),
+            (100, 75),
+            (150, 185),
+            (200, 304)
+        ]
+    },
+    
+}
 
-def _interpolate(val, vals, reverse=False):
+def _interpolate(val, standard, pollutant, reverse=False):
+    vals = CONVERSIONS[pollutant][standard]
     if reverse:
         vals = [t[::-1] for t in vals]
 
@@ -47,17 +103,23 @@ def _interpolate(val, vals, reverse=False):
     # above 500, 1:1 conversion
     return val
 
+def to_aqi(val, standard, pollutant):
+    return round(_interpolate(val, standard, pollutant, True))
+
+def from_aqi(val, standard, pollutant):
+    return round(_interpolate(val, standard, pollutant, False))
+
 def china_aqi_to_concentration(china_aqi):
-    return _interpolate(china_aqi, CHINA_AQI_CONCENTRATIONS)
+    return round(_interpolate(china_aqi, CHINA, PM25))
 
 def concentration_to_china_aqi(conc):
-    return round(_interpolate(conc, CHINA_AQI_CONCENTRATIONS, True))
+    return round(_interpolate(conc, CHINA, PM25, True))
 
 def us_aqi_to_concentration(us_aqi):
-    return _interpolate(us_aqi, US_AQI_CONCENTRATIONS)
+    return _interpolate(us_aqi, US, PM25)
 
 def concentration_to_us_aqi(conc):
-    return round(_interpolate(conc, US_AQI_CONCENTRATIONS, True))
+    return round(_interpolate(conc, US, PM25, True))
 
 def china_aqi_to_us_aqi(china_aqi):
     conc = china_aqi_to_concentration(china_aqi)
@@ -68,7 +130,7 @@ def us_aqi_to_china_aqi(us_aqi):
     return concentration_to_china_aqi(conc)
 
 def us_aqi_to_pm10_concentration(us_aqi):
-    return _interpolate(us_aqi, US_PM10_AQI_CONCENTRATIONS)
+    return _interpolate(us_aqi, US, PM10)
 
 # Tests
 import unittest
