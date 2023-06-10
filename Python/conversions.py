@@ -8,6 +8,23 @@ O3 = 'o3'
 CO = 'co'
 NO2 = 'no2'
 SO2 = 'so2'
+# Units:
+# PM2.5 - µg/m3
+# PM10 - µg/m3
+# NO2 - ppb
+# O3 - ppb
+# CO - ppm
+# SO2 - ppb
+
+
+# Pollutant EC | WHO
+# Ozone 1 ppb = 1.9957 μg m-3 1 ppb = 1.96 μg m-3
+# Nitrogen dioxide 1 ppb = 1.9125 μg m-3 1 ppb = 1.88 μg m-3
+# Carbon monoxide 1 ppm = 1.1642 mg m-3 1 ppm = 1.15 mg m-3
+# Sulphur dioxide 1 ppb = 2.6609 μg m-3 1 ppb = 2.62 μg m-3
+# Benzene 1 ppb = 3.2430 μg m-3 1 ppb = 3.19 μg m-3
+# 1,3-butadiene 1 ppb = 2.2452 μg m-3 1 ppb = 2.21 μg m-3
+
 
 CONVERSIONS = {
     PM25: {

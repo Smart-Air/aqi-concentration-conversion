@@ -1,4 +1,4 @@
-from conversions import *
+from .conversions import *
 
 # Tests
 import unittest
